@@ -1,4 +1,4 @@
-import{categories,initial,valid,snacks,search,drawSnack,addCart,migrate,cabinetLocation,nextRoomRect}from'./model.js';
+import{categories,initial,valid,snacks,search,drawSnack,addCart,migrate,cabinetLocation,nextRoomRect}from'./model.js?v=rooms2';
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),uid=()=>crypto.randomUUID();
 const paths={home:'M3 10 12 3l9 7M5 9v12h14V9M9 21v-8h6v8',plus:'M12 5v14M5 12h14',cart:'M3 3h2l3 13h11l3-9H6M9 21h.01M18 21h.01',settings:'M4 7h16M4 17h16M8 4v6M16 14v6',search:'M21 21l-5-5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',edit:'m4 16 12-12 4 4L8 20H4v-4M14 6l4 4',close:'m6 6 12 12M6 18 18 6',box:'m3 7 9-4 9 4v12l-9 3-9-3V7m0 0 9 4 9-4M12 11v11',shuffle:'M3 6h3c5 0 7 12 12 12h3m-4-4 4 4-4 4M3 18h3c2 0 4-3 6-6s4-6 6-6h3m-4-4 4 4-4 4',check:'m5 12 4 4 10-10',download:'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4',trash:'M3 6h18M9 6V3h6v3M6 6l1 15h10l1-15',camera:'M3 7h4l2-3h6l2 3h4v14H3V7M16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0'};
 const icon=n=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${paths[n]||paths.box}"/></svg>`;
