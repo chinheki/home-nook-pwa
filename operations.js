@@ -1,9 +1,9 @@
-import {grids,alignLayout,fitRect} from './layout.js?v=outdoor2';
+import {grids,alignLayout,fitRect} from './layout.js?v=outdoor3';
 
 const uid=()=>crypto.randomUUID();
 const cabinet=(s,id)=>{const c=s.cabinets.find(c=>c.id===id);if(!c)throw Error('找不到柜子');return c};
 const cell=(c,id)=>{const n=c.cells.find(n=>n.id===id);if(!n)throw Error('找不到格子');return n};
-const freshCell=n=>({...structuredClone(n),id:uid(),groups:(n.groups||[]).map(g=>({...g,id:uid()}))});
+const freshCell=n=>{const copy={...structuredClone(n),id:uid(),groups:(n.groups||[]).map(g=>({...g,id:uid()}))};delete copy.photo;return copy};
 export function changeGrid(s,key){
  if(!Object.hasOwn(grids,key))throw Error('请选择有效网格');
  // Prepare every layout before applying, so a crowded room never partially changes.
@@ -15,7 +15,7 @@ export function copyCabinet(s,id){
  if(s.cabinets.length>=200)throw Error('最多 200 个收纳');
  const c=cabinet(s,id),rect=fitRect(c,s.cabinets.filter(n=>n.room===c.room),grids[s.grid],{nearest:true});
  if(!rect)throw Error('房间没有足够空位，请先腾出空间');
- const copy={...rect,id:uid(),name:c.name?c.name+' 副本':'',cells:c.cells.map(freshCell)};s.cabinets.push(copy);return copy;
+ const copy={...rect,id:uid(),name:c.name?c.name+' 副本':'',cells:c.cells.map(freshCell)};delete copy.photo;s.cabinets.push(copy);return copy;
 }
 export function copyCell(s,cabinetId,cellId){
  const c=cabinet(s,cabinetId),n=cell(c,cellId);
@@ -40,7 +40,7 @@ export function promoteCell(s,sourceId,cellId,roomId,name){
  const source=cabinet(s,sourceId),n=cell(source,cellId),grid=grids[s.grid];
  const rect=fitRect({x:0,y:0,w:n.w,h:n.h},s.cabinets.filter(c=>c.room===roomId),grid,{nearest:true});
  if(!rect)throw Error('房间没有足够空位，请先腾出空间');
- const c={...rect,id:uid(),room:roomId,name:name.trim(),color:n.color,icon:n.icon,openSide:n.openSide,cells:[{...n,x:0,y:0,w:100,h:100}]};
+ const c={...rect,id:uid(),room:roomId,name:name.trim(),color:n.color,icon:n.icon,openSide:n.openSide,...(n.photo?{photo:n.photo}:{}),cells:[{...n,x:0,y:0,w:100,h:100}]};
  s.cabinets.push(c);source.cells=source.cells.filter(x=>x!==n);
  s.items.filter(i=>i.cabinet===sourceId&&i.cell===cellId).forEach(i=>i.cabinet=c.id);
  return c;
