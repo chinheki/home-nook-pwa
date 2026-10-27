@@ -1,4 +1,4 @@
-import {grids,alignLayout,fitRect} from './layout.js?v=outdoor3';
+import {grids,alignLayout,fitRect} from './layout.js?v=outdoor4';
 
 const uid=()=>crypto.randomUUID();
 const cabinet=(s,id)=>{const c=s.cabinets.find(c=>c.id===id);if(!c)throw Error('找不到柜子');return c};
